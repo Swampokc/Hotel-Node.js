@@ -5,6 +5,28 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
   body
+    header(id='header', class='header')
+      div.container
+        div.row
+          div.col-lg-2
+            img.logo(src='images/logo.png', alt='Sheraton')
+          div.col-lg-2.offset-8
+            nav
+              ul.d-flex.justify-content-end
+                li.menu__item
+                  a(href='/booking') Бронирование
+                li.menu__item
+                  a(href='#footer') Контакты
+
     block content
 
-    script(src='javascript/bootstrap.min.js')
+    footer.footer#footer
+      div.container
+        div.lg-lg-12
+          a(href='') Администрирование
+
+    script(src='/javascripts/jquery-3.2.1.min.js')
+    script(src='/javascripts/moment-with-locales.min.js')
+    script(src='/javascripts/bootstrap-datetimepicker.min.js')
+    script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascripts/script.js')

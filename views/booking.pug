@@ -1,6 +1,31 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p hjigohmfg #{date}
+  section.booking#booking
+    div.container
+      div.row
+        div.col-md-10.btn.btn-success.info_date
+          form#form1(action='booking', method='post')
+            div.parent
+              div
+                | Дата заезда
+              div
+                | Дата выезда
+              div
+                | Взрослые
+              div
+                | Дети
+            div.parent
+              div
+                input#dateIn.input__item(type='text', name='DateIn', required=true)
+              div
+                input#dateOut.input__item(type='text', name='DateOut', required=true)
+              div
+                select.input__item(type='text', name='aPlaces', required=true)
+                  option 1
+                  option 2
+              div
+                select.input__item(type='text', name='cPlaces', required=true)
+                  option 1
+                  option 2
+            input.btn.btn-danger.btn_send(type='submit', value='Submit')

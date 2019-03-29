@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('hotel_db', 'artem_andriukov', 'KSTrcEiyCSLJ5Ta', {
-    host: 'db4free.net',
+const sequelize = new Sequelize('hotel_node', 'root', '', {
+    host: 'localhost',
     port: '3306',
     dialect: 'mysql'
 });
@@ -14,7 +14,7 @@ sequelize
         console.error('Ошибка соединения:', err);
     });
 
-var Rooms = sequelize.define('rooms', {
+var Room = sequelize.define('room', {
     id: {
         autoIncrement: true,
         primaryKey: true,
@@ -32,7 +32,11 @@ var Rooms = sequelize.define('rooms', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    count: {
+    cPlaces: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    countRooms: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
@@ -79,15 +83,27 @@ var Booking = sequelize.define('booking', {
     dateOut: {
         type: Sequelize.DATE,
         allowNull: false
+    },
+    roomFK:{
+        type: Sequelize.INTEGER
+    },
+    clientFK:{
+        type: Sequelize.INTEGER
     }
 });
 
-Rooms.belongsToMany(Client, { through: Booking });
-Client.belongsToMany(Rooms, { through: Booking });
+Room.hasMany(Booking,{foreignKey:'roomFK', sourceKey:'id'})
+Booking.belongsTo(Room,{foreignKey:'roomFK', targetKey:'id'})
+
+Client.hasMany(Booking,{foreignKey:'clientFK', sourceKey:'id'})
+Booking.belongsTo(Client,{foreignKey:'clientFK', targetKey:'id'})
+// Room.belongsToMany(Booking)
+// Room.belongsToMany(Client, { through: Booking });
+// Client.belongsToMany(Room, { through: Booking });
 
 sequelize.sync();
 
-module.exports.Rooms = Rooms;
+module.exports.Room = Room;
 module.exports.Client = Client;
 module.exports.Booking = Booking;
 
