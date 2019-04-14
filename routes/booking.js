@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize")
+const Sequelize = require("sequelize");
 
 let express = require('express');
 let router = express.Router();
@@ -6,33 +6,34 @@ let db = require('../db');
 const Op = Sequelize.Op;
 
 /* GET booking page. */
-router.get(['/', '/booking'], function (req, res, next) {
-    res.render('booking', {title: 'Бронирование номера'});
-});
+var DateIn = new Date();
+var DateOut = new Date(new Date().getTime() + (24 * 60 * 60 * 1000));
+var aPlaces = "1";
+var cPlaces = "0";
 
-router.post(['/', '/booking'], async function (req, res, next) {
+router.get(['/', '/booking'], async function (req, res, next) {
 
-    // поиск номеров, удовлетворяющих запросу по количеству проживающих взрослых и детей
     let rooms = await db.Room.findAll({
-        attributes: ['id', 'countRooms'],
+        attributes: ['id', 'countRooms', 'name', 'description', 'cost', 'img'],
         where: {
             [Op.and]: [
                 {
                     aPlaces:
-                        {[Op.gte]: req.body.aPlaces}
+                        {[Op.gte]: aPlaces}
                 },
                 {
                     cPlaces:
-                        {[Op.gte]: req.body.cPlaces}
+                        {[Op.gte]: cPlaces}
                 }
             ]
         }
     });
 
+    var j = 0;
     var masRooms = [];
-    // поиск количества свободных номер на выбранные даты
-    rooms.forEach(async function (room) {
-        var countRooms = await db.Booking.findAndCountAll({
+    var countRooms;
+    for (i = 0; i < rooms.length; i++) {
+        countRooms = await db.Booking.findAndCountAll({
                 where: {
                     [Op.and]: [
                         {
@@ -41,50 +42,100 @@ router.post(['/', '/booking'], async function (req, res, next) {
                                     [Op.and]: [
                                         {
                                             dateIn:
-                                                {[Op.lte]: req.body.DateIn}
+                                                {[Op.lte]: DateIn}
                                         },
                                         {
                                             dateOut:
-                                                {[Op.gte]: req.body.DateIn}
+                                                {[Op.gte]: DateIn}
                                         }]
                                 },
                                 {
                                     [Op.and]: [
                                         {
                                             dateIn:
-                                                {[Op.lte]: req.body.DateOut}
+                                                {[Op.lte]: DateOut}
                                         },
                                         {
                                             dateOut:
-                                                {[Op.gte]: req.body.DateOut}
+                                                {[Op.gte]: DateOut}
                                         }]
                                 },
                                 {
                                     [Op.and]: [
                                         {
                                             dateIn:
-                                                {[Op.gte]: req.body.DateIn}
+                                                {[Op.gte]: DateIn}
                                         },
                                         {
                                             dateOut:
-                                                {[Op.lte]: req.body.DateOut}
+                                                {[Op.lte]: DateOut}
                                         }]
                                 }
                             ]
                         },
                         {
                             id:
-                                {[Op.eq]: room.id}
+                                {[Op.eq]: rooms[i].id}
                         }]
                 }
-            });
-        if (countRooms.count < room.countRooms) {
-            masRooms.push(room);
+            }
+        );
+        if (countRooms.count < rooms[i].countRooms) {
+            //console.log(countRooms);
+            masRooms[j] = rooms[i];
+            j++;
         }
+    }
+
+    res.render('booking', {title: 'Бронирование номера', rooms: masRooms,})
+});
+
+router.post('/findRooms', async function (req, res, next) {
+
+    DateIn = req.body.DateIn;
+    DateOut = req.body.DateOut;
+    aPlaces = req.body.aPlaces;
+    cPlaces = req.body.cPlaces;
+
+    res.redirect('booking');
+    }
+);
+
+router.post('/bookingRoom', async function (req, res, next) {
+    var client = null;
+    client = await db.Client.findOne({
+        where: {
+                phone:
+                    {[Op.eq]: req.body.phone}
+        },
+        raw: true,
     });
 
-    res.render('booking', {title: 'Бронирование номера', rooms: masRooms});
-})
-;
+     if (client == null) {
+        await db.Client.create({
+            name: req.body.name,
+            phone: req.body.phone,
+            email: req.body.mail
+        });
+
+         client = await db.Client.findOne({
+            where: {
+                phone:
+                    {[Op.eq]: req.body.phone}
+            },
+             raw: true,
+        });
+    }
+
+    db.Booking.create({
+        dateIn: DateIn,
+        dateOut: DateOut,
+        roomFK: req.body.roomID,
+        clientFK: client.id
+    });
+
+    res.redirect("booking")
+    }
+);
 
 module.exports = router;

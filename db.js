@@ -76,17 +76,21 @@ var Booking = sequelize.define('booking', {
         primaryKey: true,
         type: Sequelize.INTEGER
     },
+
     dateIn: {
         type: Sequelize.DATE,
         allowNull: false
     },
+
     dateOut: {
         type: Sequelize.DATE,
         allowNull: false
     },
+
     roomFK:{
         type: Sequelize.INTEGER
     },
+
     clientFK:{
         type: Sequelize.INTEGER
     }

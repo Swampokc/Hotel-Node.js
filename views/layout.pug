@@ -2,8 +2,9 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet' href='/stylesheets/main.css')
+    link(rel='stylesheet' href='/stylesheets/bootstrap.min.css')
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&amp;subset=cyrillic")
   body
     header(id='header', class='header')
       div.container
@@ -23,10 +24,12 @@ html
     footer.footer#footer
       div.container
         div.lg-lg-12
-          a(href='') Администрирование
+          a(href='/admin') Администрирование
 
     script(src='/javascripts/jquery-3.2.1.min.js')
     script(src='/javascripts/moment-with-locales.min.js')
     script(src='/javascripts/bootstrap-datetimepicker.min.js')
     script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascripts/jquery.maskedinput.js')
+    script(src='/javascripts/main.js')
     script(src='/javascripts/script.js')

@@ -1,0 +1,284 @@
+/* Спецификация */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #d9d8d8;
+}
+
+ul, li {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+hr {
+    border: none;
+    background-color: #000000; /* Цвет линии */
+    height: 2px;
+}
+
+/* Первый раздел "Меню" */
+
+.header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #000000;
+}
+
+.logo {
+    filter: invert(100%);
+    width: 70px;
+    height: 60px;
+}
+
+.menu {
+
+}
+
+.menu__item {
+    margin: 0 20px;
+    padding-top: 20px;
+}
+
+.menu__item a {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu__item a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.img-wrap img{
+    width: 100%;
+}
+
+view {
+    position: relative;
+    overflow: hidden;
+}
+
+.view .mask {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.view h2 {
+    text-transform: uppercase;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    font-size: 26px;
+    padding: 20px;
+    background: #000;
+    margin: 25px 0 0 0
+}
+
+.view p {
+    font-size: 20px;
+    position: relative;
+    color: #fff;
+    padding: 50px 100px 100px;
+    text-align: center
+}
+
+.view-first .mask {
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.6);
+    transition: all 0.4s ease-in-out;
+}
+.view-first h2 {
+    transform: translateY(0px);
+    opacity: 0;
+    transition: all 1.0s ease-in-out;
+}
+.view-first p {
+    transform: translateX(-10px);
+    opacity: 0;
+    transition: all 0.2s linear;
+}
+
+.view-first:hover .mask {
+    opacity: 1;
+}
+
+.view-first:hover h2,
+.view-first:hover p {
+    opacity: 1;
+    transform: translateY(0px);
+}
+
+.view-first:hover p {
+    transition-delay: 0.5s;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.booking {
+    margin-top: 20px;
+}
+
+.row-flex, .row-flex > div[class*='col-'] {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex:1 1 auto;
+}
+
+.row-flex-wrap {
+    -webkit-flex-flow: row wrap;
+    align-content: flex-start;
+    flex:0;
+}
+
+.row-flex > div[class*='col-'] {
+    margin:-.2px;
+}
+
+.info_date {
+    text-align: center;
+}
+
+.button_booking {
+    font-size: 24px;
+    height: 100%;
+}
+
+.input {
+    margin: auto;
+}
+
+.input__item {
+    margin: 0 20px;
+    padding-top: 10px;
+    color: #000000;
+}
+
+.input__item__text_width {
+    width: 60px;
+}
+
+.rooms {
+    padding-top: 30px;
+    background: #d9d8d8;
+}
+
+.rooms__block_h {
+    font-size: 16px;
+    padding-top: 10px;
+}
+
+.rooms__block_p {
+    font-size: 15px;
+    text-align: justify;
+}
+
+.rooms__block_c {
+    font-family: 'Montserrat', 'serif';
+    font-size: 20px;
+    text-align: left;
+}
+
+.text_options {
+    color: #000;
+}
+
+.rooms__items {
+    margin: 0 50px;
+}
+
+.footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #000000;
+    margin-top: 40px;
+}
+
+#map {
+    width: 100%;
+    height: 150px;
+}
+
+.room_block {
+    margin-top: 80px;
+}
+
+.aa {
+    margin: auto;
+    color: #ffffff;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.aa:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.bb {
+    margin: auto;
+    color: #ffffff;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.card {
+    margin-top: 20px;
+    background: #d9d8d8;
+    border: none;
+    color: white;
+}
+
+.btn-b {
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.btn-b:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.btn-b:focus {
+    text-decoration: none;
+}
+
+.according {
+    background: #d9d8d8;
+}
+
+.admin {
+    margin-top: 40px;
+}
+
+.nav {
+    text-decoration: none;
+    color: #000000;
+}
+
+.nav:hover {
+    text-decoration: none;
+    color: #000000;
+}
+
+.parent > div {
+    float: left;
+    width: 23%;
+    margin-right: 2%;
+}
+
+.parent > div:last-child {
+    margin-right: 0;
+}

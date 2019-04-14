@@ -1,5 +1,103 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.container.admin
+    ul.nav.nav-tabs#myTab(role="tablist")
+      li.nav-item
+        a.nav-link.active#rooms-tab(data-toggle="tab" href="#rooms" role="tab" aria-controls="rooms" aria-selected="true") Комнаты
+      li.nav-item
+        a.nav-link#clients-tab(data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="false") Клиенты
+      li.nav-item
+        a.nav-link#bookings-tab(data-toggle="tab" href="#bookings" role="tab" aria-controls="bookings" aria-selected="false") Бронирования
+
+    #myTabContent.tab-content(style='margin-top: 30px')
+      #rooms.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='rooms-tab')
+        form(action='addRoom', method='post')
+          .input__item
+            h3 Заполните данные для новой комнаты
+            label(for='newname', style='margin-top: 20px') Название
+            input#newname.form-control(type='text', name='name', required='')
+            label(for='newdescription', style='margin-top: 20px') Описание
+            textarea#newdescription.form-control(name='description', required='')
+            label(for='newaPlaces', style='margin-top: 20px') Взрослые
+            select#newaPlaces.form-control(name='aPlaces', required='')
+              option  1
+              option  2
+            label(for='newcPlaces', style='margin-top: 20px') Дети
+            select#newcPlaces.form-control(name='cPlaces', required='')
+              option  0
+              option  1
+              option  2
+            label(for='newcost', style='margin-top: 20px') Цена за сутки
+            input#newcost.form-control(type='number', min=1, name='cost', required='')
+            label(for='newcount', style='margin-top: 20px') Количество
+            input#newcount.form-control(type='number', min=100, max=100, name='count', required='')
+            label(for='news_img', style='margin-top: 20px') Фотография
+            select#news_img.form-control(name='s_img', required='')
+              option  1
+              option  2
+              option  3
+            button.btn.btn-success(style='margin-top: 30px; font-size: 25px' type="submit") Добавить
+
+        if (rooms != null)
+        .input__item(style='margin-top: 50px')
+          h3 Список комнат
+        each room in rooms
+          form(method='post')
+            .input__item(style='margin-top: 20px')
+              label(hidden='', for='id', style='margin-top: 10px') ID
+              input#id.form-control(hidden='', type='text', name='id', readonly='', value='{{id}}')
+              label(for='name', style='margin-top: 10px') Название
+              input#name.form-control(type='text', name='name', required='', value=room.name)
+              label(for='description', style='margin-top: 10px') Описание
+              textarea#description.form-control(name='description', required='') #{room.description}
+              label(for='aPlaces', style='margin-top: 10px') Взрослые
+              input#aPlaces.form-control(type='number', name='aPlaces', min='1', max='2', required='', value=room.aPlaces)
+              label(for='cPlaces', style='margin-top: 10px') Дети
+              input#cPlaces.form-control(type='number', name='cPlaces', min='0', max='2', required='', value=room.cPlaces)
+              label(for='cost', style='margin-top: 10px') Цена
+              input#cost.form-control(type='number', min=1, name='cost', required='', value=room.cost)
+              label(for='count', style='margin-top: 10px') Количество
+              input#count.form-control(type='number', min=1, max=100, name='count', required='', value=room.countRooms)
+              label(for='s_img', style='margin-top: 10px') Фото
+              input#s_img.form-control(type='number', name='s_img', min='1', max='3', required='', value=room.img)
+              input.btn.btn-primary(type='submit', name='SaveRoom', style='margin-top: 30px; font-size: 25px', value='Сохранить изменения')
+              input.btn.btn-danger.ml-3(type='submit', name='DeleteRoom', style='margin-top: 30px; font-size: 25px', value='Удалить')
+
+      #clients.tab-pane(role='tabpanel', aria-labelledby='clients-tab')
+        .input__item
+          h3 Список клиентов
+        if (clients != null)
+        each client in clients
+          form(method='post')
+            .input__item(style='margin-top: 20px')
+              label(hidden='', for='id', style='margin-top: 10px') ID
+              input#id.form-control(hidden='', type='text', name='id', readonly='', value=client.id)
+              label(for='name', style='margin-top: 10px') ФИО
+              input#name.form-control(type='text', name='name', required='', value=client.name)
+              label(for='phone', style='margin-top: 10px') Телефон
+              input#phone.form-control(type='text', name='phone', required='', value=client.phone)
+              label(for='mail', style='margin-top: 10px') E-mail
+              input#mail.form-control(type='text', name='mail', required='', value=client.email)
+              input.btn.btn-primary(type='submit', name='SaveClient', style='margin-top: 30px; font-size: 25px', value='Сохранить изменения')
+              input.btn.btn-danger.ml-3(type='submit', name='DeleteClient', style='margin-top: 30px; font-size: 25px', value='Удалить')
+
+      #bookings.tab-pane(role='tabpanel', aria-labelledby='bookings-tab')
+        .input__item
+          h3 Список бронирований
+        if (bookings != null)
+        each booking in bookings
+          form(method='post')
+            .input__item(style='margin-top: 20px')
+              label(hidden='', for='id', style='margin-top: 10px') ID
+              input#id.form-control(hidden='', type='text', name='id', readonly='', value=booking.id)
+              label(for='client', style='margin-top: 10px') Клиент
+              input#client.form-control(type='number', name='client', required='', value=booking.clientFK)
+              label(for='room', style='margin-top: 10px') Номер
+              input#room.form-control(type='number', name='room', required='', value=booking.roomFK)
+              label(for='dateIn', style='margin-top: 10px') Дата заселения
+              input#DateIn.form-control(type='text', name='dateIn', required='', value=booking.dateIn)
+              label(for='dateOut', style='margin-top: 10px') Дата выселения
+              input#DateOut.form-control(type='text', name='dateOut', required='', value=booking.dateOut)
+              input.btn.btn-primary(type='submit', name='SaveBooking', style='margin-top: 30px; font-size: 25px', value='Сохранить изменения')
+              input.btn.btn-danger.ml-3(type='submit', name='DeleteBooking', style='margin-top: 30px; font-size: 25px', value='Удалить')

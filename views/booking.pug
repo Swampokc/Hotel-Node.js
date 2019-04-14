@@ -3,29 +3,70 @@ extends layout
 block content
   section.booking#booking
     div.container
-      div.row
-        div.col-md-10.btn.btn-success.info_date
-          form#form1(action='booking', method='post')
-            div.parent
-              div
-                | Дата заезда
-              div
-                | Дата выезда
-              div
-                | Взрослые
-              div
-                | Дети
-            div.parent
-              div
-                input#dateIn.input__item(type='text', name='DateIn', required=true)
-              div
-                input#dateOut.input__item(type='text', name='DateOut', required=true)
-              div
-                select.input__item(type='text', name='aPlaces', required=true)
-                  option 1
-                  option 2
-              div
-                select.input__item(type='text', name='cPlaces', required=true)
-                  option 1
-                  option 2
-            input.btn.btn-danger.btn_send(type='submit', value='Submit')
+      form#form1(action='findRooms', method='post')
+          div.row
+            div.col-md-10.btn.btn-success.info_date
+                div.parent
+                  div
+                    | Дата заселения
+                  div
+                    | Дата выселения
+                  div
+                    | Взрослые
+                  div
+                    | Дети
+                div.parent
+                  div
+                    input#dateIn.input__item.btn(type='text', name='DateIn', required value=DateIn)
+                  div
+                    input#dateOut.input__item.btn(type='text', name='DateOut', required value=DateOut)
+                  div
+                    input.input__item.btn(type="number" name='aPlaces', min=1 max=2 required value=1)
+                  div
+                    input.input__item.btn(type="number" name='cPlaces', min=0 max=2 required, value=0)
+            div.col-md-2.content
+                input.btn.btn-danger.btn_send(type='submit', value='Найти номера')
+
+  if (rooms != null)
+    section.listRooms#rooms
+    each room in rooms
+      div.container
+        div.row.room_block
+          div.col-md-6
+            img(src="/images/room_"+room.img+".png")
+            div.container
+              div.my-5.mx-auto.text-center
+                button.btn.btn.dark.btn-lg(data-toggle="modal" data-target="#exampleModal"+room.id) Забронировать
+            div.modal.fade.show(id="exampleModal"+room.id tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hihhen="true")
+                div.modal-dialog(role="document")
+                    div.modal-content
+                        div.modal-header
+                            h5.modal-title(id="exampleModalLabel") #{room.name}
+                            button.close(type="button" data-dismiss="modal" aria-label="Close")
+                                span(aria-hidden="true") &times;
+                        div.modal-body
+                            form#contactForm(action='bookingRoom' method='post')
+                                input(hidden name="roomID", value=room.id)
+                                div.form-group
+                                    label(for='name') ФИО
+                                    input.form-control(id="name" name="name" required type="text" placeholder="Иванов Иван Иванович")
+                                div.form-group
+                                    label(for="email") Ваш E-mail
+                                    input.form-control(id="email" name="mail" required type="text" placeholder="ivanov@email.com")
+                                div.form-group
+                                    label(for="phone") Ваш телефон
+                                    input.form-control(id="phone" name="phone" required type="text" placeholder="+7 (800) 000-00-00")
+                                div.form-group.form-check
+                                    input#check.form-check-input(checked type="checkbox")
+                                    label.form-check-label(for="check") Я добровольно отправляю свои данные
+                                button#button.btn.btn-success(type="submit") Отправить
+          div.col-md-5.offset-1.text_options
+              p.rooms__block_h #{room.name}
+              p.rooms__block_c #{room.cost} ₽
+              p.rooms__block_h #{room.description}
+
+
+
+
+
+
