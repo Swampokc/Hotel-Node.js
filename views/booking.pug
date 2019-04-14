@@ -55,11 +55,11 @@ block content
                                     input.form-control(id="email" name="mail" required type="text" placeholder="ivanov@email.com")
                                 div.form-group
                                     label(for="phone") Ваш телефон
-                                    input.form-control(id="phone" name="phone" required type="text" placeholder="+7 (800) 000-00-00")
+                                    input.phone_mask.form-control(id="phone" name="phone" required type="text" placeholder="+7 (800) 000-00-00")
                                 div.form-group.form-check
-                                    input#check.form-check-input(checked type="checkbox")
+                                    input.check.form-check-input(checked type="checkbox")
                                     label.form-check-label(for="check") Я добровольно отправляю свои данные
-                                button#button.btn.btn-success(type="submit") Отправить
+                                button.button_check.btn.btn-success(type="submit") Отправить
           div.col-md-5.offset-1.text_options
               p.rooms__block_h #{room.name}
               p.rooms__block_c #{room.cost} ₽

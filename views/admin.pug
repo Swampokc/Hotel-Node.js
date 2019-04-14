@@ -31,7 +31,7 @@ block content
             label(for='newcost', style='margin-top: 20px') Цена за сутки
             input#newcost.form-control(type='number', min=1, name='cost', required='')
             label(for='newcount', style='margin-top: 20px') Количество
-            input#newcount.form-control(type='number', min=100, max=100, name='count', required='')
+            input#newcount.form-control(type='number', min=1, max=100, name='count', required='')
             label(for='news_img', style='margin-top: 20px') Фотография
             select#news_img.form-control(name='s_img', required='')
               option  1
@@ -43,10 +43,10 @@ block content
         .input__item(style='margin-top: 50px')
           h3 Список комнат
         each room in rooms
-          form(method='post')
+          form(action='editRoom', method='post')
             .input__item(style='margin-top: 20px')
               label(hidden='', for='id', style='margin-top: 10px') ID
-              input#id.form-control(hidden='', type='text', name='id', readonly='', value='{{id}}')
+              input#id.form-control(hidden='', type='text', name='id', readonly='', value=room.id)
               label(for='name', style='margin-top: 10px') Название
               input#name.form-control(type='text', name='name', required='', value=room.name)
               label(for='description', style='margin-top: 10px') Описание
@@ -62,14 +62,14 @@ block content
               label(for='s_img', style='margin-top: 10px') Фото
               input#s_img.form-control(type='number', name='s_img', min='1', max='3', required='', value=room.img)
               input.btn.btn-primary(type='submit', name='SaveRoom', style='margin-top: 30px; font-size: 25px', value='Сохранить изменения')
-              input.btn.btn-danger.ml-3(type='submit', name='DeleteRoom', style='margin-top: 30px; font-size: 25px', value='Удалить')
+              a.btn.btn-danger.ml-3(href='deleteRoom/' + room.id, name='DeleteRoom', style='margin-top: 30px; font-size: 25px') Удалить
 
       #clients.tab-pane(role='tabpanel', aria-labelledby='clients-tab')
         .input__item
           h3 Список клиентов
         if (clients != null)
         each client in clients
-          form(method='post')
+          form(action='editClient', method='post')
             .input__item(style='margin-top: 20px')
               label(hidden='', for='id', style='margin-top: 10px') ID
               input#id.form-control(hidden='', type='text', name='id', readonly='', value=client.id)
@@ -80,14 +80,14 @@ block content
               label(for='mail', style='margin-top: 10px') E-mail
               input#mail.form-control(type='text', name='mail', required='', value=client.email)
               input.btn.btn-primary(type='submit', name='SaveClient', style='margin-top: 30px; font-size: 25px', value='Сохранить изменения')
-              input.btn.btn-danger.ml-3(type='submit', name='DeleteClient', style='margin-top: 30px; font-size: 25px', value='Удалить')
+              a.btn.btn-danger.ml-3(href='deleteClient/' + client.id, name='DeleteClient', style='margin-top: 30px; font-size: 25px') Удалить
 
       #bookings.tab-pane(role='tabpanel', aria-labelledby='bookings-tab')
         .input__item
           h3 Список бронирований
         if (bookings != null)
         each booking in bookings
-          form(method='post')
+          form(action='editBooking' method='post')
             .input__item(style='margin-top: 20px')
               label(hidden='', for='id', style='margin-top: 10px') ID
               input#id.form-control(hidden='', type='text', name='id', readonly='', value=booking.id)
@@ -100,4 +100,4 @@ block content
               label(for='dateOut', style='margin-top: 10px') Дата выселения
               input#DateOut.form-control(type='text', name='dateOut', required='', value=booking.dateOut)
               input.btn.btn-primary(type='submit', name='SaveBooking', style='margin-top: 30px; font-size: 25px', value='Сохранить изменения')
-              input.btn.btn-danger.ml-3(type='submit', name='DeleteBooking', style='margin-top: 30px; font-size: 25px', value='Удалить')
+              a.btn.btn-danger.ml-3(href='deleteBooking/' + booking.id, name='DeleteBooking', style='margin-top: 30px; font-size: 25px') Удалить
